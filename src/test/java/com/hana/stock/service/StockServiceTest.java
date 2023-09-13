@@ -21,7 +21,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 class StockServiceTest {
 
     @Autowired
-    private StockService stockService;
+//    private StockService stockService;
+    private PessimisticLockStockService stockService;
     @Autowired
     private StockRepository stockRepository;
 
@@ -57,31 +58,28 @@ class StockServiceTest {
         // 32개의 고정된 쓰레드풀을 생성
         ExecutorService executorService = Executors.newFixedThreadPool(32);
 
-
         // CountDownLatch : 다른 스레드에서 수행중인 작업이 완료될 때 까지 대기할 수 있도록 만들어주는 클래스
         CountDownLatch latch = new CountDownLatch(threadCount);
 
 
-        for(int i = 0 ;i<threadCount; i++) {
-//            executorService.submit(() -> {
-//                try {
-                    stockService.decrease(1L,1L);
-//                } finally {
-//                    latch.countDown();
-//                }
-//            });
+        for (int i = 0; i < threadCount; i++) {
+            executorService.submit(() -> {
+                try {
+                    stockService.decrease(1L, 1L);
+                } finally {
+                    latch.countDown();
+                }
+            });
         }
 
 
-//        latch.await();
+        latch.await();
 
         Stock stock = stockRepository.findById(1L).orElseThrow(EntityNotFoundException::new);
 
+
         assertThat(stock.getQuantity()).isEqualTo(0L);
-        /*
-        expected: 0L
-         but was: 90L
-         */
+
     }
 
 
