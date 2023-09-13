@@ -18,16 +18,9 @@ public class StockService {
         //Stock조회
         //재고를 감소
         //갱신된 값을 저장
-
         Stock stock = stockRepository.findById(id).orElseThrow(EntityNotFoundException::new);
 
         stock.decrease(quantity);
-
-        
-        //더디체킹을 통해서 해결이 가능하나, 강의예제상 명시적으로 표현
-        stockRepository.saveAndFlush(stock);
-
-
     }
 
 
