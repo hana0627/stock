@@ -2,10 +2,11 @@ package com.hana.stock.service;
 
 import com.hana.stock.domain.Stock;
 import com.hana.stock.repository.StockRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityNotFoundException;
 
 @Service
 @RequiredArgsConstructor
