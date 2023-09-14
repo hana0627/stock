@@ -4,10 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -18,6 +15,9 @@ public class Stock {
     private Long id;
     @Getter private Long productId;
     @Getter private Long quantity;
+
+    @Version
+    private Long version;
 
 
     public static Stock of(Long productId, Long quantity) {

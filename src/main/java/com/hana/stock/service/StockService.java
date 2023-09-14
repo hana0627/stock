@@ -4,6 +4,7 @@ import com.hana.stock.domain.Stock;
 import com.hana.stock.repository.StockRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
@@ -24,5 +25,28 @@ public class StockService {
         stock.decrease(quantity);
     }
 
+
+    @Transactional
+    public void decreaseWithPessimisticLock(Long id, Long quantity) {
+        Stock stock = stockRepository.findByIdWithPessimisticLock(id);
+        stock.decrease(quantity);
+    }
+
+
+    @Transactional
+    public void decreaseWithOptimisticLock(Long id, Long quantity) {
+        Stock stock = stockRepository.findByIdWithOptimisticLock(id);
+        stock.decrease(quantity);
+    }
+
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void decreaseWithNamedLock(Long id, Long quantity) {
+        Stock stock = stockRepository.findById(id).orElseThrow();
+
+        stock.decrease(quantity);
+
+        stockRepository.saveAndFlush(stock);
+    }
 
 }
