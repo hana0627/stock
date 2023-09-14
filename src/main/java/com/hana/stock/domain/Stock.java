@@ -16,8 +16,8 @@ public class Stock {
     @Getter private Long productId;
     @Getter private Long quantity;
 
-    @Version
-    private Long version;
+//    @Version
+//    private Long version;
 
 
     public static Stock of(Long productId, Long quantity) {

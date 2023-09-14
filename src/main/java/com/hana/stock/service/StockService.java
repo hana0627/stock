@@ -15,13 +15,13 @@ public class StockService {
 
     private final StockRepository stockRepository;
 
+
     @Transactional
     public void decrease(Long id, Long quantity) {
         //Stock조회
         //재고를 감소
         //갱신된 값을 저장
         Stock stock = stockRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-
         stock.decrease(quantity);
     }
 
